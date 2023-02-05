@@ -6,5 +6,6 @@ namespace _70_School.Web1.Brokers.Storages
     public partial interface IstorageBroker
     {
         ValueTask<Teacher> InsertTeacherAsync(Teacher teacher);
+        ValueTask<Teacher> DeleteTeacherAsync(Teacher teacher);
     }
 }
