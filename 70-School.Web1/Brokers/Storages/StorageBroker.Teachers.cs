@@ -7,5 +7,8 @@ namespace _70_School.Web1.Brokers.Storages
     {
         public async ValueTask<Teacher> InsertTeacherAsync(Teacher teacher) =>
             await InsertAsync(teacher);
+
+        public async ValueTask<Teacher> UpdateTeacherAsync(Teacher teacher) =>
+            await UpdateAsync(teacher);
     }
 }
