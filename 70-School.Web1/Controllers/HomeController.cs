@@ -9,7 +9,7 @@ namespace _70_School.Web1.Controllers
         public class HomeController : ControllerBase
         {
             [HttpGet]
-            public ActionResult<string> GetHomeMessage() => "Tarteeb is running...";
+            public ActionResult<string> GetHomeMessage() => "70-School is running...";
         }
     }
 }
