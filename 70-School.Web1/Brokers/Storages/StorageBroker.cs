@@ -1,4 +1,5 @@
 ﻿
+using _70_School.Web1.Models.Students;
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,7 @@ namespace _70_School.Web1.Brokers.Storages
             this.Database.Migrate();
         }
 
-        public async ValueTask<T> InsertAsync<T>(T @object)
+        private async ValueTask<T> InsertAsync<T>(T @object)
         {
             var broker = new StorageBroker(this.configuration);
             broker.Entry(@object).State = EntityState.Added;
@@ -26,15 +27,24 @@ namespace _70_School.Web1.Brokers.Storages
             return @object;
         }
 
-        public IQueryable<T> SelectAll<T>() where T : class
+        private IQueryable<T> SelectAll<T>() where T : class
         {
             using var broker = new StorageBroker(this.configuration);
 
             return broker.Set<T>();
         }
 
-        public async ValueTask<T> SelectAsync<T>(params object[] objectIds) where T : class =>
+        private async ValueTask<T> SelectAsync<T>(params object[] objectIds) where T : class =>
             await FindAsync<T>(objectIds);
+
+        private async ValueTask<T> UpdateAsync<T>(T @object)
+        {
+            var broker= new StorageBroker(this.configuration);
+            broker.Entry(@object).State = EntityState.Modified;
+            await broker.SaveChangesAsync();
+
+            return @object;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
