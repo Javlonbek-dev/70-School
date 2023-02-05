@@ -2,6 +2,7 @@
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _70_School.Web1.Brokers.Storages
@@ -18,11 +19,18 @@ namespace _70_School.Web1.Brokers.Storages
 
         public async ValueTask<T> InsertAsync<T>(T @object)
         {
-            StorageBroker broker = new StorageBroker(this.configuration);
+            var broker = new StorageBroker(this.configuration);
             broker.Entry(@object).State = EntityState.Added;
             await broker.SaveChangesAsync();
 
             return @object;
+        }
+
+        public IQueryable<T> SelectAll<T>() where T : class
+        {
+            using var broker = new StorageBroker(this.configuration);
+
+            return broker.Set<T>();
         }
 
         public async ValueTask<T> SelectAsync<T>(params object[] objectIds) where T : class =>
