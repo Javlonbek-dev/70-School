@@ -1,6 +1,4 @@
-﻿
-using _70_School.Web1.Models.Students;
-using EFxceptions;
+﻿using EFxceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
@@ -39,8 +37,17 @@ namespace _70_School.Web1.Brokers.Storages
 
         private async ValueTask<T> UpdateAsync<T>(T @object)
         {
-            var broker= new StorageBroker(this.configuration);
+            var broker = new StorageBroker(this.configuration);
             broker.Entry(@object).State = EntityState.Modified;
+            await broker.SaveChangesAsync();
+
+            return @object;
+        }
+
+        private async ValueTask<T> DeleteAsync<T>(T @object)
+        {
+            var broker = new StorageBroker(this.configuration);
+            broker.Entry(@object).State = EntityState.Deleted;
             await broker.SaveChangesAsync();
 
             return @object;
