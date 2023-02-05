@@ -1,3 +1,4 @@
+using _70_School.Web1.Brokers.Storages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,18 +24,17 @@ namespace _70_School.Web1
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddDbContext<StorageBroker>();
+
+            services.AddSwaggerGen(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "_70_School.Web1", Version = "v1" });
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "_70_School.Web1", Version = "v1" });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
