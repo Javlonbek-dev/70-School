@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RESTFulSense.Controllers;
 
-namespace _70_School.Web1.Controllers
+namespace _70_School.Web.Controllers
 {
-    public class HomeController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class HomeController:RESTFulController
     {
-        [ApiController]
-        [Route("api/[controller]")]
-        public class HomeController : ControllerBase
-        {
-            [HttpGet]
-            public ActionResult<string> GetHomeMessage() => "70-School is running...";
-        }
+        [HttpGet]
+        public ActionResult<string> GetHomeMessage() => "70-School is running...";
     }
 }
+
