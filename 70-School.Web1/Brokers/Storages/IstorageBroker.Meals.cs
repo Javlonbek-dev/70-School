@@ -11,5 +11,6 @@ namespace _70_School.Web1.Brokers.Storages
         IQueryable<Meal> SelectAllMeals();
         ValueTask<Meal> SelectByIdMealAsync(Guid mealId);
         ValueTask<Meal> UpdateMealAsync(Meal meal);
+        ValueTask<Meal> DeleteMealAsync(Meal meal);
     }
 }

@@ -18,5 +18,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public async ValueTask<Meal> UpdateMealAsync(Meal meal) =>
             await UpdateAsync(meal);
+
+        public async ValueTask<Meal> DeleteMealAsync(Meal meal) =>
+            await DeleteAsync(meal);
     }
 }
