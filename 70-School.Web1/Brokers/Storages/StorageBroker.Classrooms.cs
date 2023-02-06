@@ -1,6 +1,6 @@
 ﻿using _70_School.Web1.Models.Classrooms;
-using System.Linq;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _70_School.Web1.Brokers.Storages
@@ -18,5 +18,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public async ValueTask<Classroom> UpdateClassroom(Classroom classroom) =>
             await UpdateAsync(classroom);
+
+        public async ValueTask<Classroom> DeleteClassroom(Classroom classroom) =>
+            await DeleteAsync(classroom);
     }
 }

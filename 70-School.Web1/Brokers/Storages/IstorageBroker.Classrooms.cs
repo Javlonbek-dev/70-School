@@ -11,5 +11,6 @@ namespace _70_School.Web1.Brokers.Storages
         IQueryable<Classroom> SelectAllClassrooms();
         ValueTask<Classroom> SelectClasroomById(Guid Id);
         ValueTask<Classroom> UpdateClassroom(Classroom classroom);
+        ValueTask<Classroom> DeleteClassroom(Classroom classroom);
     }
 }
