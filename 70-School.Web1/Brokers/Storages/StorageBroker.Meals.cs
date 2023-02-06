@@ -13,7 +13,10 @@ namespace _70_School.Web1.Brokers.Storages
         public IQueryable<Meal> SelectAllMeals() =>
             SelectAll<Meal>();
 
-        public async ValueTask<Meal> SelectByIdMealAsync(Guid mealId)=>
+        public async ValueTask<Meal> SelectByIdMealAsync(Guid mealId) =>
             await SelectAsync<Meal>(mealId);
+
+        public async ValueTask<Meal> UpdateMealAsync(Meal meal) =>
+            await UpdateAsync(meal);
     }
 }
