@@ -1,4 +1,5 @@
 ﻿using _70_School.Web1.Models.Meals;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,5 +12,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public IQueryable<Meal> SelectAllMeals() =>
             SelectAll<Meal>();
+
+        public async ValueTask<Meal> SelectByIdMealAsync(Guid mealId)=>
+            await SelectAsync<Meal>(mealId);
     }
 }
