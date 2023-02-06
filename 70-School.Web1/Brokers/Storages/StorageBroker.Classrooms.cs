@@ -5,7 +5,10 @@ namespace _70_School.Web1.Brokers.Storages
 {
     public partial class StorageBroker
     {
-        public async ValueTask<Classroom> InsertClassroom(Classroom classroom)=>
+        public async ValueTask<Classroom> InsertClassroom(Classroom classroom) =>
             await InsertAsync(classroom);
+
+        public async ValueTask<Classroom> UpdateClassroom(Classroom classroom) =>
+            await UpdateAsync(classroom);
     }
 }
