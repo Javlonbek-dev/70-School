@@ -15,5 +15,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public async ValueTask<Course> SelectCourseByIdAsync(Guid courseId) =>
             await SelectAsync<Course>(courseId);
+
+        public async ValueTask<Course> UpdateCourseAsync(Course course)=>
+            await UpdateAsync(course);
     }
 }
