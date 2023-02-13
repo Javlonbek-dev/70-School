@@ -1,3 +1,4 @@
+using _70_School.Web1.Brokers.DateTimes;
 using _70_School.Web1.Brokers.Loggings;
 using _70_School.Web1.Brokers.Storages;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,7 @@ namespace _70_School.Web1
         {
             services.AddTransient<IstorageBroker, StorageBroker>();
             services.AddTransient<ILoggingBroker, LoggingBroker>();
+            services.AddTransient<IDateTimeBroker, IDateTimeBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
