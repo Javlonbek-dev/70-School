@@ -13,8 +13,8 @@ namespace _70_School.Web1.Brokers.Storages
         public IQueryable<Teacher> SelectAllTeachers() =>
             SelectAll<Teacher>();
 
-        public async ValueTask<Teacher> SelectTeacherByIdAsync(Guid Id) =>
-            await SelectAsync<Teacher>(Id);
+        public async ValueTask<Teacher> SelectTeacherByIdAsync(Guid teacherId) =>
+            await SelectAsync<Teacher>(teacherId);
 
         public async ValueTask<Teacher> UpdateTeacherAsync(Teacher teacher) =>
             await UpdateAsync(teacher);

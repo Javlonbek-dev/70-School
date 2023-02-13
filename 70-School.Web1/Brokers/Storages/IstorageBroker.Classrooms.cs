@@ -9,7 +9,7 @@ namespace _70_School.Web1.Brokers.Storages
     {
         ValueTask<Classroom> InsertClassroom(Classroom classroom);
         IQueryable<Classroom> SelectAllClassrooms();
-        ValueTask<Classroom> SelectClasroomById(Guid Id);
+        ValueTask<Classroom> SelectClasroomById(Guid classroomId);
         ValueTask<Classroom> UpdateClassroom(Classroom classroom);
         ValueTask<Classroom> DeleteClassroom(Classroom classroom);
     }
