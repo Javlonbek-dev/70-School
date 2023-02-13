@@ -11,5 +11,6 @@ namespace _70_School.Web1.Brokers.Storages
         IQueryable<Course> SelectAllCourses();
         ValueTask<Course> SelectCourseByIdAsync(Guid courseId);
         ValueTask<Course> UpdateCourseAsync(Course course);
+        ValueTask<Course> DeleteCourseAsync(Course course);
     }
 }
