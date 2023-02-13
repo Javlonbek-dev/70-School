@@ -9,7 +9,7 @@ namespace _70_School.Web1.Brokers.Storages
     {
         ValueTask<Student> InsertStudentAsync(Student student);
         IQueryable<Student> SelectAllStudents();
-        ValueTask<Student> SelectStudentByIdAsync(Guid Id);
+        ValueTask<Student> SelectStudentByIdAsync(Guid studentId);
         ValueTask<Student> UpdateStudentAsync(Student student);
         ValueTask<Student> DeleteStudentAsync(Student student);
     }
