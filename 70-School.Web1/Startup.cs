@@ -1,3 +1,4 @@
+using _70_School.Web1.Brokers.Loggings;
 using _70_School.Web1.Brokers.Storages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,11 +29,18 @@ namespace _70_School.Web1
         {
             services.AddControllers();
             services.AddDbContext<StorageBroker>();
+            RegisterBrokers(services);
 
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "_70_School.Web1", Version = "v1" });
             });
+        }
+
+        private static void RegisterBrokers(IServiceCollection services)
+        {
+            services.AddTransient<IstorageBroker, StorageBroker>();
+            services.AddTransient<ILoggingBroker, LoggingBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
