@@ -18,5 +18,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public async ValueTask<Course> UpdateCourseAsync(Course course)=>
             await UpdateAsync(course);
+
+        public async ValueTask<Course> DeleteCourseAsync(Course course)=>
+            await DeleteAsync<Course>(course);
     }
 }
