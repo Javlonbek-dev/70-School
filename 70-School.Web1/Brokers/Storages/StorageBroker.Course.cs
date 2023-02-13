@@ -1,4 +1,5 @@
 ﻿using _70_School.Web1.Models.Course;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,5 +12,8 @@ namespace _70_School.Web1.Brokers.Storages
 
         public IQueryable<Course> SelectAllCourses() =>
             SelectAll<Course>();
+
+        public async ValueTask<Course> SelectCourseByIdAsync(Guid courseId) =>
+            await SelectAsync<Course>(courseId);
     }
 }
