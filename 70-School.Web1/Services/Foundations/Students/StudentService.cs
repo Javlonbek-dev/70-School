@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace _70_School.Web1.Services.Foundations.Students
 {
-    public class StudentService:IStudentService
+    public partial class StudentService:IStudentService
     {
 
         private readonly IStorageBroker storageBroker;
@@ -17,7 +17,12 @@ namespace _70_School.Web1.Services.Foundations.Students
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Student> AddStudentAsync(Student student)=>
-            await storageBroker.InsertStudentAsync(student);
+        public ValueTask<Student> AddStudentAsync(Student student) =>
+            TryCatch(async () =>
+            {
+                ValidateStudentNotNull (student);
+
+                return await this.storageBroker.InsertStudentAsync(student);
+            });
     }
 }
