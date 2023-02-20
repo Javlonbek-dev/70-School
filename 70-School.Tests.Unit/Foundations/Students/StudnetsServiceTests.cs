@@ -4,7 +4,9 @@ using _70_School.Web1.Brokers.Storages;
 using _70_School.Web1.Models.Students;
 using _70_School.Web1.Services.Foundations.Students;
 using Moq;
+using System.Linq.Expressions;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace _70_School.Tests.Unit.Foundations.Students
 {
@@ -31,6 +33,9 @@ namespace _70_School.Tests.Unit.Foundations.Students
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: DateTime.UnixEpoch).GetValue();
+
+        private static Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException)=>
+            actualEception=>actualEception.SameExceptionAs(expectedException);
 
         private static Filler<Student> CreateStudentFiller()
         {
