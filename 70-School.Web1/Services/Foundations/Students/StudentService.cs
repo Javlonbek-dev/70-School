@@ -17,9 +17,7 @@ namespace _70_School.Web1.Services.Foundations.Students
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Student> AddStudentAsync(Student student)
-        {
-            throw new System.NotImplementedException();
-        }
+        public async ValueTask<Student> AddStudentAsync(Student student)=>
+            await storageBroker.InsertStudentAsync(student);
     }
 }
