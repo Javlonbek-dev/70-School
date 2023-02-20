@@ -40,7 +40,7 @@ namespace _70_School.Web1
 
         private static void RegisterBrokers(IServiceCollection services)
         {
-            services.AddTransient<IstorageBroker, StorageBroker>();
+            services.AddTransient<IStorageBroker, StorageBroker>();
             services.AddTransient<ILoggingBroker, LoggingBroker>();
             services.AddTransient<IDateTimeBroker, IDateTimeBroker>();
         }
