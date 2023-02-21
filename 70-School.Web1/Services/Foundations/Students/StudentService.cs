@@ -20,7 +20,7 @@ namespace _70_School.Web1.Services.Foundations.Students
         public ValueTask<Student> AddStudentAsync(Student student) =>
             TryCatch(async () =>
             {
-                ValidateStudentNotNull (student);
+                ValidateUser(student);
 
                 return await this.storageBroker.InsertStudentAsync(student);
             });
