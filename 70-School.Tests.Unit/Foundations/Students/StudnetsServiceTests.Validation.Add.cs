@@ -2,11 +2,6 @@
 using _70_School.Web1.Models.Students.Exceptions;
 using FluentAssertions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace _70_School.Tests.Unit.Foundations.Students
@@ -18,29 +13,112 @@ namespace _70_School.Tests.Unit.Foundations.Students
         {
             //given
             Student nullStudent = null;
-            var nullStudentException= new NullStudentException();
+            var nullStudentException = new NullStudentException();
 
-            var expectedStudentValidationException = 
+            var expectedStudentValidationException =
                 new StudentValidationException(nullStudentException);
 
             //when
-            ValueTask<Student> addStudentTask = 
+            ValueTask<Student> addStudentTask =
                 this.studentService.AddStudentAsync(nullStudent);
 
-            StudentValidationException actualStudentValidationException = 
+            StudentValidationException actualStudentValidationException =
                 await Assert.ThrowsAsync<StudentValidationException>(addStudentTask.AsTask);
 
             //then
             actualStudentValidationException.Should().BeEquivalentTo(expectedStudentValidationException);
 
-            this.loggingBrokerMock.Verify(broker=>
-                broker.LogError(It.Is(SameExceptionAs(expectedStudentValidationException))),Times.Once);
-            
-            this.storageBrokerMock.Verify(broker=>
-                broker.InsertStudentAsync(It.IsAny<Student>()),Times.Never);
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedStudentValidationException))), Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Never);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public async Task ShouldThrowValidationExceptionOnAddIfStudentIsInvalidAndLogItAsync(string invalidString)
+        {
+            //given
+            var invalidStudent = new Student
+            {
+                UserId = invalidString,
+                IdentityNumber = invalidString,
+                FirstName = invalidString
+            };
+
+            var invalidStudentException = new InvalidStudentException();
+
+            invalidStudentException.AddData(
+                key: nameof(Student.Id),
+                values: "Id is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.IdentityNumber),
+                values: "Text is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.UserId),
+                values: "Text is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.FirstName),
+                values: "Text is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.MiddleName),
+                values: "Text is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.LastName),
+                values: "Text is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.BirthDate),
+                values: "Date is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.CraeteDate),
+                values: "Date is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.UpdateDate),
+                values: "Date is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.CreatedBy),
+                values: "Id is required");
+
+            invalidStudentException.AddData(
+                key: nameof(Student.UpdatedBy),
+                values: "Id is required");
+
+            var expectedStudentValidationException =
+                new StudentValidationException(invalidStudentException);
+
+            //when
+            ValueTask<Student> addStudentTask = this.studentService.AddStudentAsync(invalidStudent);
+
+            StudentValidationException actualStudentValidationException =
+                await Assert.ThrowsAsync<StudentValidationException>(addStudentTask.AsTask);
+
+            //then
+            actualStudentValidationException.Should().BeEquivalentTo(expectedStudentValidationException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedStudentValidationException))), Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
