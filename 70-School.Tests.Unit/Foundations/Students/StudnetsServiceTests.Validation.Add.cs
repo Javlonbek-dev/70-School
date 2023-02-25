@@ -123,7 +123,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
         }
 
         [Fact]
-        public async Task ShouldThrowValidationExceptionOnAddIfCreateAndUpdateDatesIsNotSameAndLogitAsync()
+        public async Task ShouldThrowValidationExceptionOnAddIfCreateAndUpdateDatesIsNotSameAndLogItAsync()
         {
             //given
             int randomNumber = CreateRandomNumber();
@@ -154,7 +154,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
                     expectedStudentValidationException))),Times.Once);
 
             this.storageBrokerMock.Verify(broker=>
-                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Once);
+                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
