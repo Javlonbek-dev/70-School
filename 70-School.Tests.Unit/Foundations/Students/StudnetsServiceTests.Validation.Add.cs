@@ -1,6 +1,7 @@
 ﻿using _70_School.Web1.Models.Students;
 using _70_School.Web1.Models.Students.Exceptions;
 using FluentAssertions;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using Xunit;
 
@@ -116,6 +117,44 @@ namespace _70_School.Tests.Unit.Foundations.Students
 
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertStudentAsync(It.IsAny<Student>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfCreateAndUpdateDatesIsNotSameAndLogitAsync()
+        {
+            //given
+            int randomNumber = CreateRandomNumber();
+            Student randomStudent = CreateRandomStudent();
+            Student invlidStudent = randomStudent;
+            invlidStudent.UpdateDate = invlidStudent.CraeteDate.AddDays(randomNumber);
+            var invalidStudentException = new InvalidStudentException();
+
+            invalidStudentException.AddData(
+                key: nameof(Student.UpdateDate),
+                values: $"Date is not the same as {nameof(Student.CraeteDate)}");
+
+            var expectedStudentValidationException = 
+                new StudentValidationException(invalidStudentException);
+
+            //when
+            ValueTask<Student> addStudentTask= 
+                this.studentService.AddStudentAsync(invlidStudent);
+
+            StudentValidationException actualstudentValidationException =
+                await Assert.ThrowsAsync<StudentValidationException>(addStudentTask.AsTask);
+
+            //then
+            actualstudentValidationException.Should().BeEquivalentTo(expectedStudentValidationException);
+
+            this.loggingBrokerMock.Verify(broker=>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedStudentValidationException))),Times.Once);
+
+            this.storageBrokerMock.Verify(broker=>
+                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Once);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();

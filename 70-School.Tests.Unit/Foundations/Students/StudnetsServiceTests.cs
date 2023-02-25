@@ -31,6 +31,9 @@ namespace _70_School.Tests.Unit.Foundations.Students
         private static Student CreateRandomStudent() =>
             CreateStudentFiller().Create();
 
+        private static int CreateRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: DateTime.UnixEpoch).GetValue();
 
