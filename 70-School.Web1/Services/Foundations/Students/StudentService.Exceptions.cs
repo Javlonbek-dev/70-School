@@ -1,5 +1,6 @@
 ﻿using _70_School.Web1.Models.Students;
 using _70_School.Web1.Models.Students.Exceptions;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Threading.Tasks;
 using Xeptions;
@@ -24,6 +25,23 @@ namespace _70_School.Web1.Services.Foundations.Students
             {
                 throw CreateAndLogValidationException(invalidStudentException);
             }
+            catch(SqlException sqlException)
+            {
+                var failedStudentStorageException =
+                    new FailedStudentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedStudentStorageException);
+            }
+        }
+
+        private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception )
+        {
+            var studentDependencyException = 
+                new StudentDependencyException(exception);
+
+            this.loggingBroker.LogCritical(studentDependencyException);
+
+            return studentDependencyException;
         }
 
         private StudentValidationException CreateAndLogValidationException(Xeption exception)

@@ -44,6 +44,9 @@ namespace _70_School.Tests.Unit.Foundations.Students
                 broker.LogCritical(It.Is(SameExceptionAs(
                     expectedStudentDependencyException))),Times.Once);
 
+            this.storageBrokerMock.Verify(broker=>
+                broker.InsertStudentAsync(It.IsAny<Student>()),Times.Once);
+
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
