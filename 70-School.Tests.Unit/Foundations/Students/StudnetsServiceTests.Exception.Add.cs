@@ -122,5 +122,40 @@ namespace _70_School.Tests.Unit.Foundations.Students
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfDatabaseUpdateErrorOccursAndLogItAsync()
+        {
+            //given
+            var someStudent = CreateRandomStudent();
+            var serviceException = new Exception();
+
+            var failedStudentServiceException = 
+                new FailedStudentServiceException(serviceException);
+
+            var expectedStudentServiceException = new StudentServiceException(serviceException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertStudentAsync(It.IsAny<Student>()))
+                    .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<Student> addStudentTask = this.studentService.AddStudentAsync(someStudent);
+            
+            StudentServiceException actualStudentServiceException= 
+                await Assert.ThrowsAsync<StudentServiceException>(addStudentTask.AsTask);
+
+            //then
+            actualStudentServiceException.Should().BeEquivalentTo(expectedStudentServiceException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertStudentAsync(It.IsAny<Student>()), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker=>
+                broker.LogError(It.Is(SameExceptionAs(expectedStudentServiceException))),Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
