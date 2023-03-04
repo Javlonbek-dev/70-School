@@ -133,7 +133,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
             var failedStudentServiceException = 
                 new FailedStudentServiceException(serviceException);
 
-            var expectedStudentServiceException = new StudentServiceException(serviceException);
+            var expectedStudentServiceException = new StudentServiceException(failedStudentServiceException);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertStudentAsync(It.IsAny<Student>()))
@@ -152,7 +152,8 @@ namespace _70_School.Tests.Unit.Foundations.Students
                 broker.InsertStudentAsync(It.IsAny<Student>()), Times.Once);
 
             this.loggingBrokerMock.Verify(broker=>
-                broker.LogError(It.Is(SameExceptionAs(expectedStudentServiceException))),Times.Once);
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedStudentServiceException))),Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();

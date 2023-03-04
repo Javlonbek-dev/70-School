@@ -48,7 +48,22 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 throw CreateAndLogDependecyException(failedStudentStorageException);
             }
+            catch(Exception exception)
+            {
+                var failedStudentServiceException =
+                    new FailedStudentServiceException(exception);
 
+                throw CreateAndLogServiceException(failedStudentServiceException);
+            }
+
+        }
+
+        private StudentServiceException CreateAndLogServiceException(Exception exception)
+        {
+           var studentServiceException = new StudentServiceException(exception);
+            this.loggingBroker.LogError(studentServiceException);
+
+            return studentServiceException;
         }
 
         private StudentDependencyException CreateAndLogDependecyException(Exception exception)
