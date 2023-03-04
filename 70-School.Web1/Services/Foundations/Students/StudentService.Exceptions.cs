@@ -1,5 +1,6 @@
 ﻿using _70_School.Web1.Models.Students;
 using _70_School.Web1.Models.Students.Exceptions;
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Threading.Tasks;
@@ -32,6 +33,23 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 throw CreateAndLogCriticalDependencyException(failedStudentStorageException);
             }
+            catch(DuplicateKeyException  duplicateKeyException)
+            {
+                var alreadyExsitStudentException =
+                    new AlreadyExsitStudentException(duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(alreadyExsitStudentException);
+            }
+        }
+
+        private StudentDependencyValidationException CreateAndLogDependencyValidationException( Xeption xeption)
+        {
+            var studentDependencyValidationException = 
+                new StudentDependencyValidationException(xeption);
+
+            this.loggingBroker.LogError(studentDependencyValidationException);
+
+            return studentDependencyValidationException;
         }
 
         private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception )
