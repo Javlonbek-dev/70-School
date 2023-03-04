@@ -3,6 +3,7 @@ using _70_School.Web1.Models.Students.Exceptions;
 using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -85,6 +86,41 @@ namespace _70_School.Tests.Unit.Foundations.Students
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async  Task ShouldThrowDependencyExceptionOnAddIfDatabaseUpdateErrorOccursAndLogItAsync()
+        {
+            //given
+            var someStudent = CreateRandomStudent();
+            var databaseUpdateException = new DbUpdateException();
+
+            var failedStudentStorageException = 
+                new FailedStudentStorageException(databaseUpdateException);
+
+            var expectedStudentDependencyException =
+                new StudentDependencyException(failedStudentStorageException);
+
+            this.storageBrokerMock.Setup(broker=>
+                broker.InsertStudentAsync(It.IsAny<Student>())).ThrowsAsync(databaseUpdateException);
+
+            //when
+            ValueTask<Student> addStudentTask = this.studentService.AddStudentAsync(someStudent);
+
+            StudentDependencyException actualStudentDependencyException =
+                await Assert.ThrowsAsync<StudentDependencyException>(addStudentTask.AsTask);
+
+            //then
+            actualStudentDependencyException.Should().BeEquivalentTo(expectedStudentDependencyException);
+
+            this.storageBrokerMock.Verify(broker=>
+                broker.InsertStudentAsync(It.IsAny<Student>()),Times.Once);
+
+            this.loggingBrokerMock.Verify(broker=>
+                broker.LogError(It.Is(SameExceptionAs(expectedStudentDependencyException))), Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
