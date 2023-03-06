@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _70_School.Web1.Brokers.Storages
 {
-    public partial class StorageBroker : EFxceptionsContext, IstorageBroker
+    public partial class StorageBroker : EFxceptionsContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 

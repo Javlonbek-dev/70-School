@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "70-School.Api", "70-School.Web1\70-School.Api.csproj", "{8E1DC568-CFFE-4063-B539-8EA0F2D201BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "70-School.Api", "70-School.Web1\70-School.Api.csproj", "{8E1DC568-CFFE-4063-B539-8EA0F2D201BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "70-School.Infrastructure.Build", "70-School.Infrastructure.Build\70-School.Infrastructure.Build.csproj", "{02390AC1-0829-4799-8F79-37D13F6ABE03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "70-School.Infrastructure.Build", "70-School.Infrastructure.Build\70-School.Infrastructure.Build.csproj", "{02390AC1-0829-4799-8F79-37D13F6ABE03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "70-School.Tests.Unit", "70-School.Tests.Unit\70-School.Tests.Unit.csproj", "{9AF3A4CB-2F41-49BE-A883-6C55F5D80317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{02390AC1-0829-4799-8F79-37D13F6ABE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02390AC1-0829-4799-8F79-37D13F6ABE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02390AC1-0829-4799-8F79-37D13F6ABE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AF3A4CB-2F41-49BE-A883-6C55F5D80317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AF3A4CB-2F41-49BE-A883-6C55F5D80317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AF3A4CB-2F41-49BE-A883-6C55F5D80317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AF3A4CB-2F41-49BE-A883-6C55F5D80317}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

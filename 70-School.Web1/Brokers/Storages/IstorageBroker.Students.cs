@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace _70_School.Web1.Brokers.Storages
 {
-    public partial interface IstorageBroker
+    public partial interface IStorageBroker
     {
         ValueTask<Student> InsertStudentAsync(Student student);
         IQueryable<Student> SelectAllStudents();
