@@ -4,6 +4,7 @@ using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xeptions;
 
@@ -12,43 +13,44 @@ namespace _70_School.Web1.Services.Foundations.Students
     public partial class StudentService
     {
         private delegate ValueTask<Student> ReturningStudentFunction();
+        private delegate IQueryable<Student> ReturningStudentsFunction();
 
         private async ValueTask<Student> TryCatch(ReturningStudentFunction returningStudentFunction)
         {
             try
             {
-               return await returningStudentFunction();
+                return await returningStudentFunction();
             }
             catch (NullStudentException nullStudentException)
             {
                 throw CreateAndLogValidationException(nullStudentException);
             }
-            catch(InvalidStudentException invalidStudentException)
+            catch (InvalidStudentException invalidStudentException)
             {
                 throw CreateAndLogValidationException(invalidStudentException);
             }
-            catch(SqlException sqlException)
+            catch (SqlException sqlException)
             {
                 var failedStudentStorageException =
                     new FailedStudentStorageException(sqlException);
 
                 throw CreateAndLogCriticalDependencyException(failedStudentStorageException);
             }
-            catch(DuplicateKeyException  duplicateKeyException)
+            catch (DuplicateKeyException duplicateKeyException)
             {
                 var alreadyExsitStudentException =
                     new AlreadyExsitStudentException(duplicateKeyException);
 
                 throw CreateAndLogDependencyValidationException(alreadyExsitStudentException);
             }
-            catch(DbUpdateException dbUpdateException)
+            catch (DbUpdateException dbUpdateException)
             {
-                var failedStudentStorageException = 
+                var failedStudentStorageException =
                     new FailedStudentStorageException(dbUpdateException);
 
                 throw CreateAndLogDependecyException(failedStudentStorageException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var failedStudentServiceException =
                     new FailedStudentServiceException(exception);
@@ -58,52 +60,67 @@ namespace _70_School.Web1.Services.Foundations.Students
 
         }
 
-        private StudentServiceException CreateAndLogServiceException(Exception exception)
+        private IQueryable<Student> TryCatch(ReturningStudentsFunction returningStudentFunctions)
         {
-           var studentServiceException = new StudentServiceException(exception);
-            this.loggingBroker.LogError(studentServiceException);
+            try
+            {
+                return returningStudentFunctions();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedStudentServiceException =
+                    new FailedStudentServiceException(sqlException);
 
-            return studentServiceException;
+                throw CreateAndLogCriticalDependencyException(failedStudentServiceException);
+            }
         }
 
-        private StudentDependencyException CreateAndLogDependecyException(Exception exception)
-        {
-           var studentDependencyException =
-                new StudentDependencyException(exception);
+    private StudentServiceException CreateAndLogServiceException(Exception exception)
+    {
+        var studentServiceException = new StudentServiceException(exception);
+        this.loggingBroker.LogError(studentServiceException);
 
-            this.loggingBroker.LogError(studentDependencyException);
-
-            return studentDependencyException;
-        }
-
-        private StudentDependencyValidationException CreateAndLogDependencyValidationException( Xeption xeption)
-        {
-            var studentDependencyValidationException = 
-                new StudentDependencyValidationException(xeption);
-
-            this.loggingBroker.LogError(studentDependencyValidationException);
-
-            return studentDependencyValidationException;
-        }
-
-        private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception )
-        {
-            var studentDependencyException = 
-                new StudentDependencyException(exception);
-
-            this.loggingBroker.LogCritical(studentDependencyException);
-
-            return studentDependencyException;
-        }
-
-        private StudentValidationException CreateAndLogValidationException(Xeption exception)
-        {
-            var studentValidationException = 
-                new StudentValidationException(exception);
-
-            this.loggingBroker.LogError(studentValidationException);
-
-            return studentValidationException;
-        }
+        return studentServiceException;
     }
+
+    private StudentDependencyException CreateAndLogDependecyException(Exception exception)
+    {
+        var studentDependencyException =
+             new StudentDependencyException(exception);
+
+        this.loggingBroker.LogError(studentDependencyException);
+
+        return studentDependencyException;
+    }
+
+    private StudentDependencyValidationException CreateAndLogDependencyValidationException(Xeption xeption)
+    {
+        var studentDependencyValidationException =
+            new StudentDependencyValidationException(xeption);
+
+        this.loggingBroker.LogError(studentDependencyValidationException);
+
+        return studentDependencyValidationException;
+    }
+
+    private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+    {
+        var studentDependencyException =
+            new StudentDependencyException(exception);
+
+        this.loggingBroker.LogCritical(studentDependencyException);
+
+        return studentDependencyException;
+    }
+
+    private StudentValidationException CreateAndLogValidationException(Xeption exception)
+    {
+        var studentValidationException =
+            new StudentValidationException(exception);
+
+        this.loggingBroker.LogError(studentValidationException);
+
+        return studentValidationException;
+    }
+}
 }

@@ -15,7 +15,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
     public partial class StudnetsServiceTests
     {
         [Fact]
-        public void ShouldThrowCriticalDependencyExceptionOnRetrieveAllWhenSqlExceptionOccursAndLogIt()
+            public void ShouldThrowCriticalDependencyExceptionOnRetrieveAllWhenSqlExceptionOccursAndLogIt()
         {
             //given
             SqlException sqlException = CreateRandomException();
