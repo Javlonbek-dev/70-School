@@ -1,13 +1,7 @@
 ﻿using _70_School.Web1.Models.Students.Exceptions;
 using FluentAssertions;
-using Force.DeepCloner;
 using Microsoft.Data.SqlClient;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace _70_School.Tests.Unit.Foundations.Students
@@ -15,18 +9,18 @@ namespace _70_School.Tests.Unit.Foundations.Students
     public partial class StudnetsServiceTests
     {
         [Fact]
-            public void ShouldThrowCriticalDependencyExceptionOnRetrieveAllWhenSqlExceptionOccursAndLogIt()
+        public void ShouldThrowCriticalDependencyExceptionOnRetrieveAllWhenSqlExceptionOccursAndLogIt()
         {
             //given
             SqlException sqlException = CreateRandomException();
 
-            var failedStudentServiceException = 
+            var failedStudentServiceException =
                 new FailedStudentServiceException(sqlException);
 
-            var expectedStudentDependencyException = 
+            var expectedStudentDependencyException =
                 new StudentDependencyException(failedStudentServiceException);
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.SelectAllStudents()).Throws(sqlException);
 
             //when
@@ -43,9 +37,9 @@ namespace _70_School.Tests.Unit.Foundations.Students
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectAllStudents(), Times.Once);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
-                    expectedStudentDependencyException))),Times.Once);
+                    expectedStudentDependencyException))), Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
@@ -57,10 +51,10 @@ namespace _70_School.Tests.Unit.Foundations.Students
         {
             //given
             string expectedMessage = GetRandomMessage();
-            var serviceException= new Exception(expectedMessage);
+            var serviceException = new Exception(expectedMessage);
 
             var failedStudentServiceException =
-                new FailedStudentServiceException(serviceException);  
+                new FailedStudentServiceException(serviceException);
 
             var expectedStudentServiceException =
                 new StudentServiceException(failedStudentServiceException);
@@ -72,7 +66,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
             Action retrieveAllStudentAction = () =>
                 studentService.RetrieveAllStudent();
 
-            StudentServiceException actualStudentServiceException=
+            StudentServiceException actualStudentServiceException =
                 Assert.Throws<StudentServiceException>(retrieveAllStudentAction);
 
             //then
@@ -82,7 +76,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectAllStudents(), Times.Once);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedStudentServiceException))), Times.Once);
 

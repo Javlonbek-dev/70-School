@@ -1,11 +1,6 @@
 ﻿using _70_School.Web1.Models.Students;
 using FluentAssertions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace _70_School.Tests.Unit.Foundations.Students
@@ -20,7 +15,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
             IQueryable<Student> storageStudent = randomStudent;
             IQueryable<Student> expectedStudent = storageStudent;
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.SelectAllStudents()).Returns(storageStudent);
 
             //when

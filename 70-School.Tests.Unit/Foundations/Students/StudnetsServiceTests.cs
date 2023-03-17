@@ -39,7 +39,7 @@ namespace _70_School.Tests.Unit.Foundations.Students
         private IQueryable<Student> CreateRandomStudents() =>
              CreateStudentFiller().Create(count: GetRandomNumber()).AsQueryable();
 
-        private static SqlException CreateRandomException()=>
+        private static SqlException CreateRandomException() =>
             (SqlException)FormatterServices.GetSafeUninitializedObject(typeof(SqlException));
 
         private static DateTimeOffset GetRandomDateTime() =>

@@ -73,7 +73,7 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 throw CreateAndLogCriticalDependencyException(failedStudentServiceException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var failedStudentServiceException =
                     new FailedStudentServiceException(exception);
@@ -82,52 +82,52 @@ namespace _70_School.Web1.Services.Foundations.Students
             }
         }
 
-    private StudentServiceException CreateAndLogServiceException(Exception exception)
-    {
-        var studentServiceException = new StudentServiceException(exception);
-        this.loggingBroker.LogError(studentServiceException);
+        private StudentServiceException CreateAndLogServiceException(Exception exception)
+        {
+            var studentServiceException = new StudentServiceException(exception);
+            this.loggingBroker.LogError(studentServiceException);
 
-        return studentServiceException;
+            return studentServiceException;
+        }
+
+        private StudentDependencyException CreateAndLogDependecyException(Exception exception)
+        {
+            var studentDependencyException =
+                 new StudentDependencyException(exception);
+
+            this.loggingBroker.LogError(studentDependencyException);
+
+            return studentDependencyException;
+        }
+
+        private StudentDependencyValidationException CreateAndLogDependencyValidationException(Xeption xeption)
+        {
+            var studentDependencyValidationException =
+                new StudentDependencyValidationException(xeption);
+
+            this.loggingBroker.LogError(studentDependencyValidationException);
+
+            return studentDependencyValidationException;
+        }
+
+        private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var studentDependencyException =
+                new StudentDependencyException(exception);
+
+            this.loggingBroker.LogCritical(studentDependencyException);
+
+            return studentDependencyException;
+        }
+
+        private StudentValidationException CreateAndLogValidationException(Xeption exception)
+        {
+            var studentValidationException =
+                new StudentValidationException(exception);
+
+            this.loggingBroker.LogError(studentValidationException);
+
+            return studentValidationException;
+        }
     }
-
-    private StudentDependencyException CreateAndLogDependecyException(Exception exception)
-    {
-        var studentDependencyException =
-             new StudentDependencyException(exception);
-
-        this.loggingBroker.LogError(studentDependencyException);
-
-        return studentDependencyException;
-    }
-
-    private StudentDependencyValidationException CreateAndLogDependencyValidationException(Xeption xeption)
-    {
-        var studentDependencyValidationException =
-            new StudentDependencyValidationException(xeption);
-
-        this.loggingBroker.LogError(studentDependencyValidationException);
-
-        return studentDependencyValidationException;
-    }
-
-    private StudentDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
-    {
-        var studentDependencyException =
-            new StudentDependencyException(exception);
-
-        this.loggingBroker.LogCritical(studentDependencyException);
-
-        return studentDependencyException;
-    }
-
-    private StudentValidationException CreateAndLogValidationException(Xeption exception)
-    {
-        var studentValidationException =
-            new StudentValidationException(exception);
-
-        this.loggingBroker.LogError(studentValidationException);
-
-        return studentValidationException;
-    }
-}
 }
