@@ -36,20 +36,26 @@ namespace _70_School.Tests.Unit.Foundations.Students
         private static int CreateRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
+        private IQueryable<Student> CreateRandomStudents() =>
+             CreateStudentFiller().Create(count: GetRandomNumber()).AsQueryable();
+
+        private static SqlException CreateRandomException() =>
+            (SqlException)FormatterServices.GetSafeUninitializedObject(typeof(SqlException));
+
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: DateTime.UnixEpoch).GetValue();
 
         private static string GetRandomMessage() =>
             new MnemonicString(wordCount: GetRandomNumber()).GetValue();
 
-        private static int GetRandomNumber()=>
+        private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
-        private static SqlException GetSqlException()=>
+        private static SqlException GetSqlException() =>
             (SqlException)FormatterServices.GetSafeUninitializedObject(typeof(SqlException));
 
-        private static Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException)=>
-            actualEception=>actualEception.SameExceptionAs(expectedException);
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
+            actualEception => actualEception.SameExceptionAs(expectedException);
 
         private static Filler<Student> CreateStudentFiller()
         {

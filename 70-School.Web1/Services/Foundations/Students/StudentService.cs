@@ -1,11 +1,12 @@
 ﻿using _70_School.Web1.Brokers.Loggings;
 using _70_School.Web1.Brokers.Storages;
 using _70_School.Web1.Models.Students;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _70_School.Web1.Services.Foundations.Students
 {
-    public partial class StudentService:IStudentService
+    public partial class StudentService : IStudentService
     {
 
         private readonly IStorageBroker storageBroker;
@@ -24,5 +25,8 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 return await this.storageBroker.InsertStudentAsync(student);
             });
+
+        public IQueryable<Student> RetrieveAllStudent() =>
+           TryCatch(() => this.storageBroker.SelectAllStudents());
     }
 }
