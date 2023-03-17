@@ -73,6 +73,13 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 throw CreateAndLogCriticalDependencyException(failedStudentServiceException);
             }
+            catch(Exception exception)
+            {
+                var failedStudentServiceException =
+                    new FailedStudentServiceException(exception);
+
+                throw CreateAndLogServiceException(failedStudentServiceException);
+            }
         }
 
     private StudentServiceException CreateAndLogServiceException(Exception exception)
