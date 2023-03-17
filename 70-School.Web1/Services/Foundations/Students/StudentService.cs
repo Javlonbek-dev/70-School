@@ -1,6 +1,7 @@
 ﻿using _70_School.Web1.Brokers.Loggings;
 using _70_School.Web1.Brokers.Storages;
 using _70_School.Web1.Models.Students;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,5 +29,8 @@ namespace _70_School.Web1.Services.Foundations.Students
 
         public IQueryable<Student> RetrieveAllStudent() =>
            TryCatch(() => this.storageBroker.SelectAllStudents());
+
+        public ValueTask <Student> RetrieveStudentByIdAsync(Guid studentId)=>
+            throw new System.NotImplementedException();
     }
 }
