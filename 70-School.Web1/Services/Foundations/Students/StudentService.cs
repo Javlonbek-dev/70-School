@@ -31,6 +31,6 @@ namespace _70_School.Web1.Services.Foundations.Students
            TryCatch(() => this.storageBroker.SelectAllStudents());
 
         public ValueTask <Student> RetrieveStudentByIdAsync(Guid studentId)=>
-            throw new System.NotImplementedException();
+           this.storageBroker.SelectStudentByIdAsync(studentId);
     }
 }
