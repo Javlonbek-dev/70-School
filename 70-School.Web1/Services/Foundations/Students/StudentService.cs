@@ -27,6 +27,6 @@ namespace _70_School.Web1.Services.Foundations.Students
             });
 
         public IQueryable<Student> RetrieveAllStudent()=>
-            throw new System.NotImplementedException();
+            this.storageBroker.SelectAllStudents();
     }
 }
