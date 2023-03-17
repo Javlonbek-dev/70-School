@@ -1,6 +1,7 @@
 ﻿using _70_School.Web1.Brokers.Loggings;
 using _70_School.Web1.Brokers.Storages;
 using _70_School.Web1.Models.Students;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _70_School.Web1.Services.Foundations.Students
@@ -24,5 +25,8 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 return await this.storageBroker.InsertStudentAsync(student);
             });
+
+        public IQueryable<Student> RetrieveAllStudent()=>
+            throw new System.NotImplementedException();
     }
 }
