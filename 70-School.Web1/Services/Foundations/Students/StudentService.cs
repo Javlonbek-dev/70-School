@@ -30,7 +30,12 @@ namespace _70_School.Web1.Services.Foundations.Students
         public IQueryable<Student> RetrieveAllStudent() =>
            TryCatch(() => this.storageBroker.SelectAllStudents());
 
-        public ValueTask <Student> RetrieveStudentByIdAsync(Guid studentId)=>
-           this.storageBroker.SelectStudentByIdAsync(studentId);
+        public ValueTask<Student> RetrieveStudentByIdAsync(Guid studentId) =>
+           TryCatch(() =>
+           {
+               ValidateStudentId(studentId);
+
+               return this.storageBroker.SelectStudentByIdAsync(studentId);
+           });
     }
 }
