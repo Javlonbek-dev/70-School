@@ -50,6 +50,10 @@ namespace _70_School.Web1.Services.Foundations.Students
 
                 throw CreateAndLogDependecyException(failedStudentStorageException);
             }
+            catch(NotFoundStudentException notFoundStudentException)
+            {
+                throw CreateAndLogValidationException(notFoundStudentException);
+            }
             catch (Exception exception)
             {
                 var failedStudentServiceException =

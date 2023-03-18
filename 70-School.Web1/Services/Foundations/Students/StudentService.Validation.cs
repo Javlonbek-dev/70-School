@@ -1,6 +1,8 @@
 ﻿using _70_School.Web1.Models.Students;
 using _70_School.Web1.Models.Students.Exceptions;
 using System;
+using System.Data;
+using System.Reflection.Metadata;
 
 namespace _70_School.Web1.Services.Foundations.Students
 {
@@ -29,6 +31,17 @@ namespace _70_School.Web1.Services.Foundations.Students
                     secondDateName: nameof(Student.CraeteDate)),
                 Parameter: nameof(Student.UpdateDate))
                 );
+        }
+
+        private void ValidateStudentId(Guid studentId) =>
+            Validate((Rule: IsInvalid(studentId), Parameter: nameof(Student.Id)));
+
+        private static void ValidateStorageStudent(Student maybeStudent,Guid studentId)
+        {
+            if(maybeStudent is null)
+            {
+                throw new NotFoundStudentException(studentId);
+            }
         }
 
         private static dynamic IsInvalid(Guid id) => new
