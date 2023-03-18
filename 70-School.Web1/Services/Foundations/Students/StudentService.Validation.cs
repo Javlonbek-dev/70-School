@@ -36,6 +36,14 @@ namespace _70_School.Web1.Services.Foundations.Students
         private void ValidateStudentId(Guid studentId) =>
             Validate((Rule: IsInvalid(studentId), Parameter: nameof(Student.Id)));
 
+        private static void ValidateStorageStudent(Student maybeStudent,Guid studentId)
+        {
+            if(maybeStudent is null)
+            {
+                throw new NotFoundStudentException(studentId);
+            }
+        }
+
         private static dynamic IsInvalid(Guid id) => new
         {
             Condition = id == default,

@@ -31,11 +31,16 @@ namespace _70_School.Web1.Services.Foundations.Students
            TryCatch(() => this.storageBroker.SelectAllStudents());
 
         public ValueTask<Student> RetrieveStudentByIdAsync(Guid studentId) =>
-           TryCatch(() =>
+           TryCatch(async () =>
            {
                ValidateStudentId(studentId);
 
-               return this.storageBroker.SelectStudentByIdAsync(studentId);
+               Student maybeStudent=
+                    await this.storageBroker.SelectStudentByIdAsync(studentId);
+
+               ValidateStorageStudent(maybeStudent,studentId);
+
+               return maybeStudent;
            });
     }
 }
