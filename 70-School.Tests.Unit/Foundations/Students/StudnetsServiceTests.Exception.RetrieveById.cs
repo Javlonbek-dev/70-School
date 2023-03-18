@@ -1,5 +1,6 @@
 ﻿using _70_School.Web1.Models.Students;
 using _70_School.Web1.Models.Students.Exceptions;
+using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Moq;
 using Xunit;
@@ -33,6 +34,9 @@ namespace _70_School.Tests.Unit.Foundations.Students
                 await Assert.ThrowsAsync<StudentDependencyException>(retrieveStudentByIdTask.AsTask);
 
             //then
+            actualStudentDependencyException.Should().BeEquivalentTo(
+                expectedStudentDependencyException);
+
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectStudentByIdAsync(It.IsAny<Guid>()), Times.Once);
 
